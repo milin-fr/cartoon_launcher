@@ -1,25 +1,30 @@
-from webbrowser import open
+from webbrowser import open as web_open
 import random
+import os
 
 
 class App:
-  def __init__(self):
-    self.cartoon_list = [
-                        'https://www.youtube.com/watch?v=ijUf5vadUho',
-                        'https://www.youtube.com/watch?v=Gv5Y0eyUjmM',
-                        'https://www.youtube.com/watch?v=v7jKx_SUb4E',
-                        'https://www.youtube.com/watch?v=lvc5HZzfICA',
-                        'https://www.youtube.com/watch?v=nlV1gD-Q4kc',
-                        'https://www.youtube.com/watch?v=guMPIMthGqA',
-                        'https://www.youtube.com/watch?v=XgTikrvX-bs',
-                        'https://www.youtube.com/watch?v=4u3VJKJ7pa0',
-                        'https://www.youtube.com/watch?v=JV6fajokJe8',
-                        'https://www.youtube.com/watch?v=RaSxvc5fXFc',
-                        'https://www.youtube.com/watch?v=R28bYp3IP80'
-                        ]
+    def __init__(self):
+        self.create_cartoons_txt()
 
-    open(random.choice(self.cartoon_list))
+        cartoons_list = self.get_cartoons_list()
+        if cartoons_list:
+            web_open(random.choice(cartoons_list))
+        else:
+            os.startfile("cartoons_list.txt")
+
+    def get_cartoons_list(self):
+        cartoons_list = []
+        with open("cartoons_list.txt", "r") as file_cartoons_list:
+            for line in file_cartoons_list:
+                cartoons_list.append(line.strip("\n"))
+        return cartoons_list
+
+    def create_cartoons_txt(self):
+        if not os.path.isfile('cartoons_list.txt'):
+            with open("cartoons_list.txt", "w") as file_cartoons_list:
+                file_cartoons_list.write("")
 
 
 if __name__ == "__main__":
-  App()
+    App()
